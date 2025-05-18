@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		434446022DD26F1C00CB2A5E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 434446012DD26F1C00CB2A5E /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		434445E82DD26F0B00CB2A5E /* BakeryApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BakeryApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				434446022DD26F1C00CB2A5E /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = BakeryApp;
 			packageProductDependencies = (
+				434446012DD26F1C00CB2A5E /* SnapKit */,
 			);
 			productName = BakeryApp;
 			productReference = 434445E82DD26F0B00CB2A5E /* BakeryApp.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 434445DF2DD26F0B00CB2A5E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				434446002DD26F1C00CB2A5E /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 434445E92DD26F0B00CB2A5E /* Products */;
 			projectDirPath = "";
@@ -333,6 +342,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		434446002DD26F1C00CB2A5E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		434446012DD26F1C00CB2A5E /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 434446002DD26F1C00CB2A5E /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 434445E02DD26F0B00CB2A5E /* Project object */;
 }
