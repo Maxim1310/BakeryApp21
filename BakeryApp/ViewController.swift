@@ -16,6 +16,8 @@ class ViewController: UIViewController {
         object.image = UIImage(named: "Banner")
         object.contentMode = .scaleAspectFit
         
+        
+        
         return object
     }()
     
@@ -25,6 +27,7 @@ class ViewController: UIViewController {
         object.font = UIFont(name:"Inter-SemiBold", size: 20)
         object.numberOfLines = 0
         object.textAlignment = .center
+        object.textColor = .white
         
         
         return object
@@ -36,11 +39,12 @@ class ViewController: UIViewController {
         object.font = .systemFont(ofSize: 14)
         object.numberOfLines = 0
         object.textAlignment = .center
+        object.textColor = .white
         
         return object
     }()
     
-    var continueWithEmailButton: UIButton = {
+    var continueButton: UIButton = {
         let object = UIButton()
         
         object.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14)
@@ -54,6 +58,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.colorBackground
+
         // Do any additional setup after loading the view.
     }
 
@@ -69,6 +76,7 @@ class ViewController: UIViewController {
         bannerImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(64)
             $0.width.equalToSuperview().inset(90)
+            $0.left.right.equalToSuperview().inset(100)
             
             $0.centerX.equalToSuperview()
             
@@ -93,28 +101,32 @@ class ViewController: UIViewController {
             $0.right.equalTo(titleLabel.snp.right)
         }
         
-        self.view.addSubview(continueWithEmailButton)
-        continueWithEmailButton.snp.makeConstraints {
+        self.view.addSubview(continueButton)
+        continueButton.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(24)
             $0.width.equalTo(241)
             $0.height.equalTo(40)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(64)
+            
+            
         }
     }
 
     private func setupObjects() {
-        titleLabel.text = "The Only Bakery You'll Love Our Bread is Tasty & Healthy"
-        descriptionLabel.text = "We use MAIA made by us with water and flour without improvers."
-        continueWithEmailButton.setTitle("Continue with Email", for: .normal)
-        continueWithEmailButton.addTarget(self, action: #selector(continueWithEmailButtonPressed(_:)), for: .touchUpInside)
+        titleLabel.text = "The Only Coffee You’ll Love Our Coffee is Rich & Natural"
+        descriptionLabel.text = "We use a unique method for cultivating our coffee beans."
+        continueButton.setTitle("Order Now", for: .normal)
+        
+        
+        
     }
     
-    @objc func continueWithEmailButtonPressed(_ sender: UIButton){
-        let alertController = UIAlertController(title: "Alert!", message: "I support Barcelona!", preferredStyle: .alert)
+    let presenter = ViewController()
+        let vc = SecondViewController(presenter: continueButton)
+        self.navigationController?.pushViewController(SecondViewController, animated: true)
         
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
-        
-        self.present(alertController, animated: true)
-    }
+
+    
 }
+  

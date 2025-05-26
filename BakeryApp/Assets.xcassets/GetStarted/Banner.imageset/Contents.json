@@ -5,7 +5,13 @@
       "scale" : "1x"
     },
     {
-      "filename" : "ChatGPT Image 13 мая 2025 г., 15_52_34.png",
+      "alignment-insets" : {
+        "bottom" : 0,
+        "left" : 23,
+        "right" : 0,
+        "top" : 0
+      },
+      "filename" : "Кофе.jpg",
       "idiom" : "universal",
       "scale" : "2x"
     },
