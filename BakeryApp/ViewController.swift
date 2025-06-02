@@ -61,15 +61,18 @@ class ViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.colorBackground
 
-        // Do any additional setup after loading the view.
+       
     }
 
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
         setupObjects()
         setupUI()
+        
     }
     private func setupUI() {
+        
+        continueButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
     
         self.view.addSubview(bannerImageView)
         
@@ -116,15 +119,17 @@ class ViewController: UIViewController {
     private func setupObjects() {
         titleLabel.text = "The Only Coffee You’ll Love Our Coffee is Rich & Natural"
         descriptionLabel.text = "We use a unique method for cultivating our coffee beans."
-        continueButton.setTitle("Order Now", for: .normal)
+        continueButton.setTitle("Continue", for: .normal)
         
         
         
     }
     
-    let presenter = ViewController()
-        let vc = SecondViewController(presenter: continueButton)
-        self.navigationController?.pushViewController(SecondViewController, animated: true)
+    @objc func buttonTapped() {
+           print("Button was tapped!")
+            let vc = SecondViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+       }
         
 
     
