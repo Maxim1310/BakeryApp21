@@ -1,9 +1,8 @@
-//
-//  SecondViewController.swift
-//  BakeryApp
-//
-//  Created by Maxik on 19.05.2025.
-//
+
+
+
+
+
 
 import UIKit
 import SnapKit
