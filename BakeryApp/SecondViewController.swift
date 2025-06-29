@@ -7,393 +7,237 @@
 import UIKit
 import SnapKit
 
+
 class SecondViewController: UIViewController {
     
-    private var isFavorite = false
-    private var heartButton: UIBarButtonItem!
+    struct Coffee: Codable {
+        let title: String
+        let description: String
+        let ingredients: [String]
+        let image: String
+        let id: Int
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.colorBackground
         
         
-        
-        setupHeartButton()
-        
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = .white
         
     }
     
-    private func setupHeartButton() {
-        heartButton = UIBarButtonItem(
-            image: UIImage(systemName: "heart"),
-            style: .plain,
-            target: self,
-            action: #selector(heartButtonTapped)
-        )
-        heartButton.tintColor = .white
-        navigationItem.rightBarButtonItem = heartButton
-    }
-
-    @objc private func heartButtonTapped() {
-        isFavorite.toggle()
-        let imageName = isFavorite ? "heart.fill" : "heart"
-        heartButton.image = UIImage(systemName: imageName)
-        
-        print("Heart tapped: \(isFavorite ? "selected" : "unselected")")
-    }
     
-    
-    
-    var banner2ImageView: UIImageView = {
-        let object = UIImageView()
+    class CoffeeTableViewCell: UITableViewCell {
+        let coffeeImageView: UIImageView = {
+            let imageView = UIImageView()
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
+            return imageView
+        }()
         
-        object.image = UIImage(named: "GroundCoffee")
-        object.contentMode = .scaleAspectFit
-        object.layer.cornerRadius = 10
+        let titleLabel: UILabel = {
+            let label = UILabel()
+            label.font = .boldSystemFont(ofSize: 18)
+            label.numberOfLines = 0
+            return label
+        }()
+        
+        let descriptionLabel: UILabel = {
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 14)
+            label.numberOfLines = 0
+            return label
+        }()
+        
+        let ingredientsLabel: UILabel = {
+            let label = UILabel()
+            label.font = .systemFont(ofSize: 12)
+            label.textColor = .gray
+            label.numberOfLines = 0
+            return label
+        }()
+        
+        var continueButton2: UIButton = {
+            let object = UIButton()
+            
+            object.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14)
+            object.backgroundColor = UIColor(named: "ColorButton")
+            object.titleLabel?.textColor = .white
+            object.layer.cornerRadius = 4
+            return object
+            
+            
+        }()
         
         
         
-        return object
-    }()
-    
-
-        
-    
-    class StepperView: UIView {
-
-        private let minusButton = UIButton(type: .system)
-        private let plusButton = UIButton(type: .system)
-        private let countLabel = UILabel()
-
-        private var count = 100 {
-            didSet {
-                countLabel.text = "\(count)"
-            }
+        override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            setupViews()
         }
-
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            setupUI()
-        }
-
+        
         required init?(coder: NSCoder) {
-            super.init(coder: coder)
-            setupUI()
+            fatalError("init(coder:) has not been implemented")
         }
-
-        private func setupUI() {
+        
+        private func setupViews() {
+            contentView.addSubview(coffeeImageView)
+            contentView.addSubview(titleLabel)
+            contentView.addSubview(descriptionLabel)
+            contentView.addSubview(ingredientsLabel)
             
-            layer.borderWidth = 1
-            layer.borderColor = UIColor.white.cgColor
-            layer.cornerRadius = 6
-            clipsToBounds = true
-
             
-            minusButton.setTitle("−", for: .normal)
-            minusButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-            minusButton.addTarget(self, action: #selector(decrease), for: .touchUpInside)
-            minusButton.setTitleColor(.white, for: .normal)
             
-
-
-            
-            plusButton.setTitle("+", for: .normal)
-            plusButton.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .medium)
-            plusButton.addTarget(self, action: #selector(increase), for: .touchUpInside)
-            plusButton.setTitleColor(.white, for: .normal)
-
-
-    
-            countLabel.text = "\(count)"
-            countLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-            countLabel.textAlignment = .center
-            countLabel.textColor = .white
-
-            
-            let stack = UIStackView(arrangedSubviews: [minusButton, countLabel, plusButton])
-            stack.axis = .horizontal
-            stack.distribution = .fillEqually
-
-            addSubview(stack)
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                stack.topAnchor.constraint(equalTo: topAnchor),
-                stack.bottomAnchor.constraint(equalTo: bottomAnchor),
-                stack.leadingAnchor.constraint(equalTo: leadingAnchor),
-                stack.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
-        }
-
-        @objc private func decrease() {
-               if count > 100 {
-                   count -= 100
-                   
-               }
-           }
-
-           @objc private func increase() {
-               count += 100
-           }
-       }
-    
-    class CoffeeTypeSelector: UIView {
-
-        private let groundButton = UIButton(type: .system)
-        private let beanButton = UIButton(type: .system)
-
-        private let selectedColor = UIColor.white
-        private let unselectedColor = UIColor.lightGray
-
-        private var selectedType: CoffeeType = .ground {
-            didSet {
-                updateUI()
+            coffeeImageView.snp.makeConstraints { make in
+                make.leading.equalToSuperview().offset(16)
+                make.top.equalToSuperview().offset(16)
+                make.width.height.equalTo(100)
             }
-        }
-
-        enum CoffeeType {
-            case ground
-            case bean
-        }
-
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            setupUI()
-        }
-
-        required init?(coder: NSCoder) {
-            super.init(coder: coder)
-            setupUI()
-        }
-
-        private func setupUI() {
-            groundButton.setTitle("  ● Ground", for: .normal)
-            beanButton.setTitle("  ○ Bean", for: .normal)
-
-            [groundButton, beanButton].forEach {
-                $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-                $0.setTitleColor(unselectedColor, for: .normal)
-                $0.contentHorizontalAlignment = .center
-                $0.addTarget(self, action: #selector(optionTapped(_:)), for: .touchUpInside)
+            
+            titleLabel.snp.makeConstraints { make in
+                make.leading.equalTo(coffeeImageView.snp.trailing).offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+                make.top.equalToSuperview().offset(16)
             }
-
-            let stack = UIStackView(arrangedSubviews: [groundButton, beanButton])
-            stack.axis = .horizontal
-            stack.spacing = 20
-            stack.distribution = .fillEqually
-
-            addSubview(stack)
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                stack.topAnchor.constraint(equalTo: topAnchor),
-                stack.bottomAnchor.constraint(equalTo: bottomAnchor),
-                stack.leadingAnchor.constraint(equalTo: leadingAnchor),
-                stack.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
-
-            updateUI()
-        }
-
-        @objc private func optionTapped(_ sender: UIButton) {
-            if sender == groundButton {
-                selectedType = .ground
-            } else {
-                selectedType = .bean
+            
+            descriptionLabel.snp.makeConstraints { make in
+                make.leading.equalTo(coffeeImageView.snp.trailing).offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+                make.top.equalTo(titleLabel.snp.bottom).offset(8)
             }
+            
+            ingredientsLabel.snp.makeConstraints { make in
+                make.leading.equalTo(coffeeImageView.snp.trailing).offset(16)
+                make.trailing.equalToSuperview().offset(-16)
+                make.top.equalTo(descriptionLabel.snp.bottom).offset(8)
+                make.bottom.equalToSuperview().offset(-16)
+            }
+            
+           
+            continueButton2.snp.makeConstraints {
+                $0.width.equalTo(241)
+                $0.height.equalTo(40)
+                $0.centerX.equalToSuperview()
+                $0.bottom.equalToSuperview().inset(64)
+            }
+            continueButton2.addTarget(self, action: #selector(buttonTapped2), for: .touchUpInside)
         }
-
-        private func updateUI() {
-            switch selectedType {
-            case .ground:
-                groundButton.setTitle("  ● Ground", for: .normal)
-                groundButton.setTitleColor(selectedColor, for: .normal)
-                beanButton.setTitle("  ○ Bean", for: .normal)
-                beanButton.setTitleColor(unselectedColor, for: .normal)
-            case .bean:
-                beanButton.setTitle("  ● Bean", for: .normal)
-                beanButton.setTitleColor(selectedColor, for: .normal)
-                groundButton.setTitle("  ○ Ground", for: .normal)
-                groundButton.setTitleColor(unselectedColor, for: .normal)
+        
+        func configure(with coffee: Coffee) {
+            titleLabel.text = coffee.title
+            descriptionLabel.text = coffee.description
+            ingredientsLabel.text = "Ингредиенты: \(coffee.ingredients.joined(separator: ", "))"
+            
+            continueButton2.setTitle("Continue", for: .normal)
+            
+            
+            coffeeImageView.image = nil
+            if let url = URL(string: coffee.image) {
+                DispatchQueue.global().async {
+                    if let data = try? Data(contentsOf: url), let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            self.coffeeImageView.image = image
+                        }
+                    }
+                }
             }
         }
     }
-
-
-    
-    var title2Label: UILabel = {
-        let object = UILabel()
-        
-        object.font = UIFont(name:"Inter-SemiBold", size: 20)
-        object.numberOfLines = 0
-        object.textColor = .white
-        object.textAlignment = .left
-        
-        return object
-    }()
-    
-    var title3Label: UILabel = {
-        let object = UILabel()
-        
-        object.font = UIFont(name:"Inter-SemiBold", size: 20)
-        object.numberOfLines = 0
-        object.textColor = UIColor.white.withAlphaComponent(0.5)
-        object.textAlignment = .left
-        
-        return object
-    }()
-    
-    var title4Label: UILabel = {
-        let object = UILabel()
-        
-        object.font = UIFont(name:"Inter-SemiBold", size: 20)
-        object.numberOfLines = 0
-        object.textAlignment = .left
-        object.textColor = .white
-        
-        return object
-    }()
-    
-    var orderNowButton: UIButton = {
-        let object = UIButton()
-        
-        object.titleLabel?.font = UIFont(name: "Inter-Medium", size: 14)
-        object.backgroundColor = UIColor(named: "ColorButton")
-        object.titleLabel?.textColor = .white
-        object.layer.cornerRadius = 4
-        
-        
-        
-        return object
-    }()
-    
-    var priceLabel: UILabel = {
-        let object = UILabel()
-        
-        object.font = UIFont(name:"Inter-Medium", size: 20)
-        object.textColor = .white
-        object.textAlignment = .left
-        object.numberOfLines = 0
-        
-        return object
-    }()
     
     
-    override func viewWillAppear(_ animated: Bool){
-        super.viewWillAppear(animated)
-        setupUI()
-        setup2Objects()
+    class CoffeeListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+        private var coffees: [Coffee] = []
         
-    }
-    
-    
-    private func setupUI() {
+        private let tableView: UITableView = {
+            let tableView = UITableView()
+            return tableView
+        }()
         
-        
-        
-        self.view.addSubview(banner2ImageView)
-        
-        banner2ImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(64)
-            $0.width.equalToSuperview().inset(100)
-            $0.left.right.equalToSuperview().inset(100)
-            
-            
-            $0.centerX.equalToSuperview()
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            view.backgroundColor = .white
+            navigationItem.title = "Кофейное меню"
+            setupTableView()
+            loadCoffeeData()
         }
         
-        self.view.addSubview(title2Label)
-        
-        title2Label.snp.makeConstraints {
-            $0.top.equalTo(banner2ImageView).offset(450)
-            $0.left.equalTo(banner2ImageView.snp.left)
-            $0.right.equalTo(banner2ImageView).offset(20)
+        private func setupTableView() {
+            view.addSubview(tableView)
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.register(CoffeeTableViewCell.self, forCellReuseIdentifier: "CoffeeCell")
             
-            $0.centerX.equalToSuperview()
-            
+            tableView.snp.makeConstraints { make in
+                make.edges.equalTo(view.safeAreaLayoutGuide)
+            }
         }
         
-        self.view.addSubview(title3Label)
-        
-        title3Label.snp.makeConstraints {
-            $0.top.equalTo(title2Label).offset(100)
-            $0.left.equalTo(title2Label).offset(150)
-            $0.right.equalTo(title2Label).offset(50)
+        private func loadCoffeeData() {
+            guard let url = URL(string: "https://api.sampleapis.com/coffee/hot") else {
+                showError(message: "Неверный URL API")
+                return
+            }
             
+            Task {
+                do {
+                    let fetchedCoffees = try await fetchCoffeeData(from: url)
+                    coffees = fetchedCoffees
+                    tableView.reloadData()
+                } catch {
+                    showError(message: "Не удалось загрузить данные о кофе: \(error.localizedDescription)")
+                }
+            }
         }
         
-        self.view.addSubview(title4Label)
-        
-        title4Label.snp.makeConstraints {
-            $0.top.equalTo(title2Label).offset(60)
-            $0.left.equalTo(title2Label).offset(-50)
-            $0.right.equalTo(title2Label).offset(-80)
+        private func fetchCoffeeData(from url: URL) async throws -> [Coffee] {
+            let (data, response) = try await URLSession.shared.data(from: url)
             
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw URLError(.badServerResponse)
+            }
             
+            let decoder = JSONDecoder()
+            let coffees = try decoder.decode([Coffee].self, from: data)
+            return coffees
         }
         
-        let selector = CoffeeTypeSelector()
-        view.addSubview(selector)
-        selector.snp.makeConstraints {
-            $0.top.equalTo(title4Label.snp.bottom).offset(24)
-            $0.left.right.equalToSuperview().inset(24)
-            $0.height.equalTo(40)
-
-        }
-
-        
-        let stepper = StepperView()
-        view.addSubview(stepper)
-        stepper.snp.makeConstraints {
-            $0.top.equalTo(banner2ImageView).offset(500)
-            $0.width.equalTo(120)
-            $0.height.equalTo(40)
-            $0.right.equalTo(banner2ImageView).offset(60)
-            
+        private func showError(message: String) {
+            let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "ОК", style: .default))
+            DispatchQueue.main.async {
+                self.present(alert, animated: true)
+            }
         }
         
-        self.view.addSubview(orderNowButton)
-        orderNowButton.snp.makeConstraints {
-            $0.width.equalTo(190)
-            $0.height.equalTo(40)
-            $0.bottom.equalToSuperview().inset(64)
-            $0.right.right.equalToSuperview().inset(44)
-            
-            
+        
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return coffees.count
         }
         
-        self.view.addSubview(priceLabel)
-        priceLabel.snp.makeConstraints {
-            $0.width.equalTo(70)
-            $0.bottom.equalToSuperview().inset(64)
-            $0.right.right.equalToSuperview().inset(270)
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "CoffeeCell", for: indexPath) as! CoffeeTableViewCell
+            let coffee = coffees[indexPath.row]
+            cell.configure(with: coffee)
+            return cell
+        }
+        
+        
+        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return UITableView.automaticDimension
+        }
+        
+        func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 150
         }
     }
     
-    
-    
-    private func setup2Objects() {
-        title2Label.text = "BeanCoffee&GroundCoffee"
-        title3Label.text = "How many grams of coffee do you need?"
-        title4Label.text = "Enjoy the aroma of premium-quality coffee — available as whole beans or pre-ground for your convenience."
-        orderNowButton.setTitle("Order Now", for: .normal)
-        orderNowButton.addTarget(self, action: #selector(orderNowButtonPressed(_sender:)), for: .touchUpInside)
-        priceLabel.text = "Price: $2.49"
-        
-    }
-    
-    @objc func orderNowButtonPressed(_sender: UIButton) {
-        
-        let alertController = UIAlertController(title: "Ordered Successfully!", message: "Expect your order to be delivered soon", preferredStyle: .alert)
-       
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
-        
-        self.present(alertController, animated: true)
-        
-    }
-
-    
-    
-
+    @objc func buttonTapped2() {
+          print("Button was tapped!!")
+           let vc = ThirdViewController()
+           self.navigationController?.pushViewController(vc, animated: true)
+      }
     
 }
