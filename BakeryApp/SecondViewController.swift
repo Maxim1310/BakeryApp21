@@ -7,8 +7,6 @@
 import UIKit
 import SnapKit
 
-
-class SecondViewController: UIViewController {
     
     struct Coffee: Codable {
         let title: String
@@ -19,15 +17,7 @@ class SecondViewController: UIViewController {
     }
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = UIColor.colorBackground
-        
-        
-        navigationItem.backButtonTitle = ""
-        navigationController?.navigationBar.tintColor = .white
-        
-    }
+   
     
     
     class CoffeeTableViewCell: UITableViewCell {
@@ -88,6 +78,7 @@ class SecondViewController: UIViewController {
             contentView.addSubview(titleLabel)
             contentView.addSubview(descriptionLabel)
             contentView.addSubview(ingredientsLabel)
+            contentView.addSubview(continueButton2)
             
             
             
@@ -123,7 +114,7 @@ class SecondViewController: UIViewController {
                 $0.centerX.equalToSuperview()
                 $0.bottom.equalToSuperview().inset(64)
             }
-            continueButton2.addTarget(self, action: #selector(buttonTapped2), for: .touchUpInside)
+    
         }
         
         func configure(with coffee: Coffee) {
@@ -185,7 +176,9 @@ class SecondViewController: UIViewController {
                 do {
                     let fetchedCoffees = try await fetchCoffeeData(from: url)
                     coffees = fetchedCoffees
-                    tableView.reloadData()
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        self.tableView.reloadData()
+                    }
                 } catch {
                     showError(message: "Не удалось загрузить данные о кофе: \(error.localizedDescription)")
                 }
@@ -234,10 +227,5 @@ class SecondViewController: UIViewController {
         }
     }
     
-    @objc func buttonTapped2() {
-          print("Button was tapped!!")
-           let vc = ThirdViewController()
-           self.navigationController?.pushViewController(vc, animated: true)
-      }
     
-}
+

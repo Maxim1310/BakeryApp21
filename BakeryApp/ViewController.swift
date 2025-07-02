@@ -127,7 +127,7 @@ class ViewController: UIViewController {
     
     @objc func buttonTapped() {
            print("Button was tapped!")
-            let vc = SecondViewController()
+            let vc = CoffeeListViewController()
             self.navigationController?.pushViewController(vc, animated: true)
        }
         
