@@ -1,6 +1,6 @@
 
 
-
+// ThirdViewController
 
 
 import UIKit
@@ -383,17 +383,14 @@ class ThirdViewController: UIViewController {
     
     @objc func orderNowButtonPressed(_sender: UIButton) {
         
-        let alertController = UIAlertController(title: "Ordered Successfully!", message: "Expect your order to be delivered soon", preferredStyle: .alert)
-       
+        let alertController = UIAlertController(title: "Ordered Successfully!",
+                                                message: "Expect your order to be delivered soon", preferredStyle: .alert)
+        
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
         
         self.present(alertController, animated: true)
         
     }
-
-    
-    
-
     
 }
 

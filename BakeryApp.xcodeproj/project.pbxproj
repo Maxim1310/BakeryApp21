@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		434446022DD26F1C00CB2A5E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 434446012DD26F1C00CB2A5E /* SnapKit */; };
+		E4CB26742E19070B00DB4963 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = E4CB26732E19070B00DB4963 /* SDWebImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4CB26742E19070B00DB4963 /* SDWebImage in Frameworks */,
 				434446022DD26F1C00CB2A5E /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +86,7 @@
 			name = BakeryApp;
 			packageProductDependencies = (
 				434446012DD26F1C00CB2A5E /* SnapKit */,
+				E4CB26732E19070B00DB4963 /* SDWebImage */,
 			);
 			productName = BakeryApp;
 			productReference = 434445E82DD26F0B00CB2A5E /* BakeryApp.app */;
@@ -115,6 +118,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				434446002DD26F1C00CB2A5E /* XCRemoteSwiftPackageReference "SnapKit" */,
+				E4CB26722E19070B00DB4963 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 434445E92DD26F0B00CB2A5E /* Products */;
@@ -352,6 +356,14 @@
 				minimumVersion = 5.0.1;
 			};
 		};
+		E4CB26722E19070B00DB4963 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.21.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -359,6 +371,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 434446002DD26F1C00CB2A5E /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		E4CB26732E19070B00DB4963 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E4CB26722E19070B00DB4963 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

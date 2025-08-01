@@ -55,15 +55,15 @@ class ViewController: UIViewController {
         
         
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.colorBackground
-
-       
+        
+        
     }
-
+    
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
         setupObjects()
@@ -73,7 +73,7 @@ class ViewController: UIViewController {
     private func setupUI() {
         
         continueButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-    
+        
         self.view.addSubview(bannerImageView)
         
         bannerImageView.snp.makeConstraints {
@@ -115,7 +115,7 @@ class ViewController: UIViewController {
             
         }
     }
-
+    
     private func setupObjects() {
         titleLabel.text = "The Only Coffee You’ll Love Our Coffee is Rich & Natural"
         descriptionLabel.text = "We use a unique method for cultivating our coffee beans."
@@ -126,12 +126,14 @@ class ViewController: UIViewController {
     }
     
     @objc func buttonTapped() {
-           print("Button was tapped!")
-            let vc = CoffeeListViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-       }
-        
-
+        print("Button was tapped!")
+        let vc = PacManTransitionViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
 }
+    
+    
+    
+
   
