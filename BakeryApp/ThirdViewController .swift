@@ -5,17 +5,20 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 class ThirdViewController: UIViewController {
     
     private var isFavorite = false
     private var heartButton: UIBarButtonItem!
+    public var coffee: Coffee!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.colorBackground
         
         
+        setupData()
         
         setupHeartButton()
         
@@ -23,6 +26,12 @@ class ThirdViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
         
     }
+    
+    private func setupData () {
+        banner2ImageView.sd_setImage(with: URL(string: coffee.image))
+        
+    }
+    
     
     private func setupHeartButton() {
         heartButton = UIBarButtonItem(
@@ -35,6 +44,8 @@ class ThirdViewController: UIViewController {
         navigationItem.rightBarButtonItem = heartButton
     }
 
+    
+    
     @objc private func heartButtonTapped() {
         isFavorite.toggle()
         let imageName = isFavorite ? "heart.fill" : "heart"
@@ -44,29 +55,13 @@ class ThirdViewController: UIViewController {
     }
     
     
-    
-    var banner2ImageView: UIImageView = {
-        let object = UIImageView()
-        
-        object.image = UIImage(named: "GroundCoffee")
-        object.contentMode = .scaleAspectFit
-        object.layer.cornerRadius = 10
-        
-        
-        
-        return object
-    }()
-    
-
-        
-    
     class StepperView: UIView {
 
         private let minusButton = UIButton(type: .system)
         private let plusButton = UIButton(type: .system)
         private let countLabel = UILabel()
 
-        private var count = 100 {
+        private var count = 1 {
             didSet {
                 countLabel.text = "\(count)"
             }
@@ -126,132 +121,45 @@ class ThirdViewController: UIViewController {
         }
 
         @objc private func decrease() {
-               if count > 100 {
-                   count -= 100
+               if count > 1 {
+                   count -= 1
                    
                }
            }
 
            @objc private func increase() {
-               count += 100
+               count += 1
            }
        }
     
-    class CoffeeTypeSelector: UIView {
-
-        private let groundButton = UIButton(type: .system)
-        private let beanButton = UIButton(type: .system)
-
-        private let selectedColor = UIColor.white
-        private let unselectedColor = UIColor.lightGray
-
-        private var selectedType: CoffeeType = .ground {
-            didSet {
-                updateUI()
-            }
-        }
-
-        enum CoffeeType {
-            case ground
-            case bean
-        }
-
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            setupUI()
-        }
-
-        required init?(coder: NSCoder) {
-            super.init(coder: coder)
-            setupUI()
-        }
-
-        private func setupUI() {
-            groundButton.setTitle("  ● Ground", for: .normal)
-            beanButton.setTitle("  ○ Bean", for: .normal)
-
-            [groundButton, beanButton].forEach {
-                $0.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-                $0.setTitleColor(unselectedColor, for: .normal)
-                $0.contentHorizontalAlignment = .center
-                $0.addTarget(self, action: #selector(optionTapped(_:)), for: .touchUpInside)
-            }
-
-            let stack = UIStackView(arrangedSubviews: [groundButton, beanButton])
-            stack.axis = .horizontal
-            stack.spacing = 20
-            stack.distribution = .fillEqually
-
-            addSubview(stack)
-            stack.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                stack.topAnchor.constraint(equalTo: topAnchor),
-                stack.bottomAnchor.constraint(equalTo: bottomAnchor),
-                stack.leadingAnchor.constraint(equalTo: leadingAnchor),
-                stack.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
-
-            updateUI()
-        }
-
-        @objc private func optionTapped(_ sender: UIButton) {
-            if sender == groundButton {
-                selectedType = .ground
-            } else {
-                selectedType = .bean
-            }
-        }
-
-        private func updateUI() {
-            switch selectedType {
-            case .ground:
-                groundButton.setTitle("  ● Ground", for: .normal)
-                groundButton.setTitleColor(selectedColor, for: .normal)
-                beanButton.setTitle("  ○ Bean", for: .normal)
-                beanButton.setTitleColor(unselectedColor, for: .normal)
-            case .bean:
-                beanButton.setTitle("  ● Bean", for: .normal)
-                beanButton.setTitleColor(selectedColor, for: .normal)
-                groundButton.setTitle("  ○ Ground", for: .normal)
-                groundButton.setTitleColor(unselectedColor, for: .normal)
-            }
-        }
-    }
-
+   
 
     
-    var title2Label: UILabel = {
-        let object = UILabel()
+    var banner2ImageView: UIImageView = {
+        let object = UIImageView()
         
-        object.font = UIFont(name:"Inter-SemiBold", size: 20)
-        object.numberOfLines = 0
-        object.textColor = .white
-        object.textAlignment = .left
+        object.image = UIImage()
+        object.contentMode = .scaleAspectFill
+        object.clipsToBounds = true
+        object.layer.cornerRadius = 10
+        
         
         return object
     }()
     
-    var title3Label: UILabel = {
-        let object = UILabel()
-        
-        object.font = UIFont(name:"Inter-SemiBold", size: 20)
-        object.numberOfLines = 0
-        object.textColor = UIColor.white.withAlphaComponent(0.5)
-        object.textAlignment = .left
-        
-        return object
-    }()
+    var phrase: UILabel = {
+            let object = UILabel()
+            
+            object.font = UIFont(name:"Inter-Medium", size: 20)
+            object.textColor = .white
+            object.textAlignment = .left
+            object.numberOfLines = 0
+            
+            return object
+        }()
     
-    var title4Label: UILabel = {
-        let object = UILabel()
-        
-        object.font = UIFont(name:"Inter-SemiBold", size: 20)
-        object.numberOfLines = 0
-        object.textAlignment = .left
-        object.textColor = .white
-        
-        return object
-    }()
+    
+    
     
     var orderNowButton: UIButton = {
         let object = UIButton()
@@ -265,6 +173,7 @@ class ThirdViewController: UIViewController {
         
         return object
     }()
+    
     
     var priceLabel: UILabel = {
         let object = UILabel()
@@ -282,6 +191,7 @@ class ThirdViewController: UIViewController {
         super.viewWillAppear(animated)
         setupUI()
         setup2Objects()
+   
         
     }
     
@@ -293,61 +203,28 @@ class ThirdViewController: UIViewController {
         self.view.addSubview(banner2ImageView)
         
         banner2ImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(64)
-            $0.width.equalToSuperview().inset(100)
-            $0.left.right.equalToSuperview().inset(100)
-            
-            
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(100)
             $0.centerX.equalToSuperview()
+            $0.width.equalToSuperview().inset(40)
+            $0.height.equalTo(banner2ImageView.snp.width).multipliedBy(1.2)
         }
         
-        self.view.addSubview(title2Label)
-        
-        title2Label.snp.makeConstraints {
-            $0.top.equalTo(banner2ImageView).offset(450)
+        self.view.addSubview(phrase)
+        phrase.snp.makeConstraints {
+            $0.top.equalTo(banner2ImageView.snp.bottom).offset(40)
             $0.left.equalTo(banner2ImageView.snp.left)
-            $0.right.equalTo(banner2ImageView).offset(20)
+            $0.width.equalTo(200)
             
-            $0.centerX.equalToSuperview()
-            
-        }
-        
-        self.view.addSubview(title3Label)
-        
-        title3Label.snp.makeConstraints {
-            $0.top.equalTo(title2Label).offset(100)
-            $0.left.equalTo(title2Label).offset(150)
-            $0.right.equalTo(title2Label).offset(50)
-            
-        }
-        
-        self.view.addSubview(title4Label)
-        
-        title4Label.snp.makeConstraints {
-            $0.top.equalTo(title2Label).offset(60)
-            $0.left.equalTo(title2Label).offset(-50)
-            $0.right.equalTo(title2Label).offset(-80)
-            
-            
-        }
-        
-        let selector = CoffeeTypeSelector()
-        view.addSubview(selector)
-        selector.snp.makeConstraints {
-            $0.top.equalTo(title4Label.snp.bottom).offset(24)
-            $0.left.right.equalToSuperview().inset(24)
-            $0.height.equalTo(40)
-
         }
 
         
         let stepper = StepperView()
         view.addSubview(stepper)
         stepper.snp.makeConstraints {
-            $0.top.equalTo(banner2ImageView).offset(500)
+            $0.top.equalTo(banner2ImageView).offset(450)
             $0.width.equalTo(120)
             $0.height.equalTo(40)
-            $0.right.equalTo(banner2ImageView).offset(60)
+            $0.right.equalTo(banner2ImageView).offset(10)
             
         }
         
@@ -372,14 +249,14 @@ class ThirdViewController: UIViewController {
     
     
     private func setup2Objects() {
-        title2Label.text = "BeanCoffee&GroundCoffee"
-        title3Label.text = "How many grams of coffee do you need?"
-        title4Label.text = "Enjoy the aroma of premium-quality coffee — available as whole beans or pre-ground for your convenience."
+        
+        phrase.text = "Aromatic coffee made with care — the perfect start to your day."
         orderNowButton.setTitle("Order Now", for: .normal)
         orderNowButton.addTarget(self, action: #selector(orderNowButtonPressed(_sender:)), for: .touchUpInside)
         priceLabel.text = "Price: $2.49"
         
     }
+    
     
     @objc func orderNowButtonPressed(_sender: UIButton) {
         

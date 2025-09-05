@@ -36,10 +36,9 @@ class CoffeeTableViewCell: UITableViewCell {
     
     private lazy var image: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 15
-       
         return imageView
     }()
     
@@ -58,12 +57,13 @@ class CoffeeTableViewCell: UITableViewCell {
         contentView.addSubview(image)
         
         image.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.right.equalToSuperview().offset(-16)
+            $0.top.equalToSuperview().offset(12)
+            $0.bottom.lessThanOrEqualToSuperview().offset(-12)
+            $0.right.equalToSuperview().inset(16)
             $0.width.equalTo(100)
-            $0.height.equalTo(100)
+            $0.height.equalTo(100).priority(.high)
         }
-        
+    
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(8)
             $0.left.equalToSuperview().offset(16)
@@ -173,8 +173,9 @@ class CoffeeListViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let coffees = coffees[indexPath.row]
+        let coffes = coffees[indexPath.row]
         let vc = ThirdViewController()
+        vc.coffee = coffes
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
