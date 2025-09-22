@@ -98,7 +98,7 @@ class CoffeeListViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationItem.title = "Кофейное меню"
+        navigationItem.title = "Coffee menu"
         setupTableView()
         loadCoffeeData()
     }
@@ -117,24 +117,46 @@ class CoffeeListViewController: UIViewController, UITableViewDataSource, UITable
     private func loadCoffeeData() {
         guard let url = URL(string: "https://api.sampleapis.com/coffee/hot") else {
             showError(message: "Неверный URL API")
+            loadCoffeeFromLocalFile()
             return
         }
-        
+
         Task {
             do {
                 let fetchedCoffees = try await fetchCoffeeData(from: url)
-                coffees = fetchedCoffees
-                print("Loaded \(coffees.count) coffees")
+                self.coffees = fetchedCoffees
+                print("Данные получены с API")
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
-                    print("Table view reloaded")
                 }
             } catch {
-                print("Error fetching coffee data: \(error)")
-                showError(message: "Не удалось загрузить данные о кофе: \(error.localizedDescription)")
+                print("Ошибка получения данных с API: \(error.localizedDescription)")
+                showError(message: "Не удалось загрузить данные с API. Загружаем резервные данные.")
+                loadCoffeeFromLocalFile()
             }
         }
     }
+
+    private func loadCoffeeFromLocalFile() {
+        guard let fileURL = Bundle.main.url(forResource: "Data", withExtension: "json") else {
+            print(" Data.json не найден")
+            showError(message: "Локальный файл с кофе не найден")
+            return
+        }
+
+        do {
+            let data = try Data(contentsOf: fileURL)
+            let decoded = try JSONDecoder().decode([Coffee].self, from: data)
+            self.coffees = decoded
+            print(" Данные загружены из файла Data.json")
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        } catch {
+            showError(message: "Ошибка загрузки локальных данных: \(error.localizedDescription)")
+        }
+    }
+
     
     
     
