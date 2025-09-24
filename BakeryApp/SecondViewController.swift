@@ -15,76 +15,6 @@ struct Coffee: Codable {
     let id: Int
 }
 
-class CoffeeTableViewCell: UITableViewCell {
-   
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var image: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 15
-        return imageView
-    }()
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupUI() {
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(image)
-        
-        image.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(12)
-            $0.bottom.lessThanOrEqualToSuperview().offset(-12)
-            $0.right.equalToSuperview().inset(16)
-            $0.width.equalTo(100)
-            $0.height.equalTo(100).priority(.high)
-        }
-    
-        titleLabel.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(8)
-            $0.left.equalToSuperview().offset(16)
-            $0.right.equalTo(image.snp.left).offset(-16)
-        }
-        
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(4)
-            $0.left.equalToSuperview().offset(16)
-            $0.right.equalTo(image.snp.left).offset(-16)
-            $0.bottom.equalToSuperview().offset(-8)
-        }
-    }
-    
-    func configure(with coffee: Coffee) {
-        titleLabel.text = coffee.title
-        descriptionLabel.text = coffee.description
-        image.sd_setImage(with: URL(string: coffee.image))
-    }
-}
-
 // Основной контроллер
 class CoffeeListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     private var coffees: [Coffee] = []
@@ -157,7 +87,6 @@ class CoffeeListViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
 
-    
     
     
     private func fetchCoffeeData(from url: URL) async throws -> [Coffee] {

@@ -93,7 +93,7 @@ class PacManTransitionViewController: UIViewController {
             }
         })
         
-        // Реалистичное поедание точек
+        // Поедание точек
         for (i, dot) in dots.enumerated() {
             let delay = Double(i) * 0.3 + 0.3
             DispatchQueue.main.asyncAfter(deadline: .now() + delay) {

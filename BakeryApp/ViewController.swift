@@ -1,9 +1,6 @@
 //
 //  ViewController.swift
-//  BakeryApp
-//
-//  Created by Bogdan on 12.05.2025.
-//
+
 
 import UIKit
 import SnapKit
@@ -16,8 +13,6 @@ class ViewController: UIViewController {
         object.image = UIImage(named: "Banner")
         object.contentMode = .scaleAspectFit
         
-        
-        
         return object
     }()
     
@@ -28,7 +23,6 @@ class ViewController: UIViewController {
         object.numberOfLines = 0
         object.textAlignment = .center
         object.textColor = .white
-        
         
         return object
     }()
@@ -53,14 +47,12 @@ class ViewController: UIViewController {
         object.layer.cornerRadius = 4
         return object
         
-        
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.colorBackground
-        
         
     }
     
@@ -70,34 +62,28 @@ class ViewController: UIViewController {
         setupUI()
         
     }
+    
     private func setupUI() {
         
         continueButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
         self.view.addSubview(bannerImageView)
-        
         bannerImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(64)
             $0.width.equalToSuperview().inset(90)
             $0.left.right.equalToSuperview().inset(100)
             
             $0.centerX.equalToSuperview()
-            
-            
         }
         
-        
         self.view.addSubview(titleLabel)
-        
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(bannerImageView).offset(550)
             $0.left.equalTo(bannerImageView.snp.left)
             $0.right.equalTo(bannerImageView.snp.right)
-            
         }
         
         self.view.addSubview(descriptionLabel)
-        
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(12)
             $0.left.equalTo(titleLabel.snp.left)
@@ -111,8 +97,6 @@ class ViewController: UIViewController {
             $0.height.equalTo(40)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().inset(64)
-            
-            
         }
     }
     
@@ -120,9 +104,6 @@ class ViewController: UIViewController {
         titleLabel.text = "The Only Coffee You’ll Love Our Coffee is Rich & Natural"
         descriptionLabel.text = "We use a unique method for cultivating our coffee beans."
         continueButton.setTitle("Continue", for: .normal)
-        
-        
-        
     }
     
     @objc func buttonTapped() {
