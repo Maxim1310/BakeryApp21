@@ -27,6 +27,14 @@ class CoffeeTableViewCell: UITableViewCell {
         return label
     }()
     
+    /*private let ingredientsLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 10)
+        label.textColor = .gray
+        return label
+        }()*/
+    
     private lazy var coffeeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -47,6 +55,7 @@ class CoffeeTableViewCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(coffeeImageView)
+        //contentView.addSubview(ingredientsLabel)
         
         coffeeImageView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(12)
@@ -67,12 +76,21 @@ class CoffeeTableViewCell: UITableViewCell {
             $0.right.equalTo(coffeeImageView.snp.left).offset(-16)
             $0.bottom.equalToSuperview().offset(-8)
         }
+        
+        /*ingredientsLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(10)
+            $0.left.equalTo(descriptionLabel.snp.right).offset(10)
+            $0.right.equalTo(coffeeImageView.snp.left).offset(-10)
+            
+        }*/
     }
     
     func configure(with coffee: Coffee) {
         titleLabel.text = coffee.title
         descriptionLabel.text = coffee.description
+        //ingredientsLabel.text = coffee.ingredients
         coffeeImageView.sd_setImage(with: URL(string: coffee.image))
+        
     }
 }
 

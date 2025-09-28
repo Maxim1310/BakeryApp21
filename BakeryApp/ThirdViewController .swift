@@ -7,7 +7,6 @@ import UIKit
 import SnapKit
 import SDWebImage
 
-
 class ThirdViewController: UIViewController {
     
     private var isFavorite = false
@@ -53,6 +52,7 @@ class ThirdViewController: UIViewController {
         
         print("Heart tapped: \(isFavorite ? "selected" : "unselected")")
     }
+    
     
 
     var banner2ImageView: UIImageView = {
